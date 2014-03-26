@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" ng-app="oysterdemo">
+<head>
+    <title>Oyster Demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <!-- BootStrap -->
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap-theme.min.css">
+    
+    <!-- Other external components -->
+    <script src="/components/lodash/dist/lodash.min.js"></script>
+    <script type="text/javascript" src="../components/ng-grid/lib/jquery-1.9.1.js"></script>
+    
+    <!-- Angular -->
+    <script src="/components/angular/angular.js"></script>
+    <script src="/components/angular-route/angular-route.min.js"></script>
+    <script src="/components/angular-cookies/angular-cookies.min.js"></script>
+    
+    <!-- Angular Bootstrap directives-->
+    <script src="/components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="/components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="/css/login.css" >
+    <link rel="stylesheet" href="/css/dashboard.css" >
+    
+    <!-- Main App -->
+    <script src="/lib/routes.js"></script>
+    
+    <!-- Controllers -->
+    <script src="/lib/controllers/main.js"></script>
+    <script src="/lib/controllers/auth.js"></script>
+    
+    <!-- Services -->
+    <script src="/lib/services/auth.js"></script>
+    <!--<script src="/lib/services/user.js"></script>-->
+    
+    <!-- Directives -->
+    <script src="/lib/directives/rights.js"></script>
+    
+</head>
+<body data-ng-controller="MainCtrl">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Example</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li data-rights="private"><a href data-ng-click="logout()">Logout</a></li>
+          </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li data-rights="private" ng-repeat="item in upperNavItems">
+                    <a ng-class="{active:item.active}" href="#{{item.url}}">{{item.title}}</a>
+                </li>
+            </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ng-switch on="upperNavSelectedItem.title">
+                <span ng-switch-default>
+                    <ul class="nav nav-sidebar">
+                        <li data-rights="private" ng-repeat="item in leftNavItems">
+                            <a ng-class="{active:item.active}" href="#{{item.url}}">{{item.title}}</a>
+                        </li>
+                    </ul>
+                </span>
+                <span ng-switch-when="Users">
+                    <ng-include src="templateUserUrl()"></ng-include>
+                </span>
+            </ng-switch>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div ng-view></div>
+          
+        </div>
+      </div>
+    </div>
+</body>
+</html>
